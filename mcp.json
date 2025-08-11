@@ -3,12 +3,15 @@
     "playwright": {
       "description": "Playwright MCP",
       "command": "npx",
-      "args": ["@playwright/mcp@latest", "--headless", "--isolated"]
+      "args": ["-y", "@playwright/mcp@latest", "--headless", "--isolated"]
     },
     "memory": {
       "description": "Server Memory MCP",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+    "gitmvp": {
+      "url": "https://gitmvp.com/mcp"
     }
   }
 }

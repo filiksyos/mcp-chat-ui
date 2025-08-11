@@ -76,7 +76,7 @@ export class ChatSession {
 
     public modelGPT4o = new OpenAIChatCompletionsModel(
       openai,
-      "openai/gpt-4o"
+      "openai/gpt-4o-mini"
     ),
 
     public codingAgent = new Agent({
@@ -88,7 +88,7 @@ export class ChatSession {
     }),
 
     public genericAgent = new Agent({
-      model: modelSonnet,
+      model: modelGPT4o,
       name: "Generic AI Agent",
       instructions: SystemPrompt.replace(/\%\%NOW\%\%/gi, now()),
       mcpServers: ([myMCPServer] as MCPServer[]).concat(

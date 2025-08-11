@@ -274,40 +274,9 @@ export class WebSocketConnection {
     return result;
   }
 
-  private async verifyAuth(data: WebSocketMessage) {
-    if (!process.env.OPENROUTER_API_KEY) {
-      this.sendMessage({
-        error:
-          "OpenRouter API Key is not set. Update .env file to have OPENROUTER_API_KEY=[YOUR_API_KEY]",
-      });
-      return false;
-    }
-    // Google ID token authentication
-    if (process.env.GOOGLE_CLIENT_ID) {
-      try {
-        if (!data.id_token) {
-          this.sendMessage({ error: "Missing Google ID token" });
-          this.ws.close && this.ws.close();
-          return;
-        }
-
-        if (!this.user || !this.user.email) {
-          this.user =
-            (await verifyGoogleToken(data.id_token)) || ({} as TokenPayload);
-          if (!this.user.email) {
-            throw new Error("Invalid Google ID token");
-          }
-          console.log("Authenticated user:", { name: this.user.name });
-          (this.ws as any).user = this.user;
-        }
-      } catch (err) {
-        this.sendMessage({ error: "Invalid Google ID token" });
-        this.ws.close && this.ws.close();
-        return false;
-      }
-    } else {
-      (this.ws as any).user = { email: "none", name: "Unknown" };
-    }
+  private async verifyAuth(_data: WebSocketMessage) {
+    // Authentication disabled by request
+    (this.ws as any).user = { email: "none", name: "Anonymous" };
     return true;
   }
 
@@ -319,6 +288,13 @@ export class WebSocketConnection {
     if (typeof output === "object") {
       return output;
     }
-    return parseJSON(output);
+    try {
+      // Try parsing as JSON first
+      return JSON.parse(output);
+    } catch (e) {
+      // If parsing fails, return the raw string wrapped in an object
+      console.warn("Failed to parse tool output as JSON, returning raw text:", e);
+      return { text: output || "No output" };
+    }
   }
 }

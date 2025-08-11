@@ -2,8 +2,12 @@ import moment from "moment-timezone";
 
 export const parseJSON = (value: string): any => {
   try {
+    if (!value || value.trim() === "") {
+      return {};
+    }
     return JSON.parse(value);
   } catch (e) {
+    console.warn("JSON parse failed, returning raw value:", e);
     return value;
   }
 };

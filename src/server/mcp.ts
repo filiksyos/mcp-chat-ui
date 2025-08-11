@@ -1,7 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import express from "express";
-import { requireOAuthBearerToken } from "./auth";
 import { logMCPRequest } from "./log";
 import path from "path";
 import fs from "fs";
@@ -41,7 +40,6 @@ export const setupMcpServer = async (app: express.Application) => {
   });
   app.post(
     "/mcp",
-    requireOAuthBearerToken,
     async (req: express.Request, res: express.Response) => {
       try {
         const sessionId = "rnd" + Math.round(Math.random() * 1000000);

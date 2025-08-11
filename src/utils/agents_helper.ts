@@ -47,12 +47,22 @@ export class AgentsHelper {
   ) {
     try {
       if (agent.mcpServers && agent.mcpServers.length > 0) {
+        const connectWithTimeout = async (server: MCPServerStreamableHttp | MCPServerStdio, ms: number) => {
+          return await Promise.race([
+            server.connect(),
+            new Promise((resolve) => setTimeout(resolve, ms, "__TIMEOUT__")),
+          ]);
+        };
         for (let mcpServer of agent.mcpServers) {
           if (
             mcpServer instanceof MCPServerStreamableHttp ||
             mcpServer instanceof MCPServerStdio
           ) {
-            await mcpServer.connect();
+            const result = await connectWithTimeout(mcpServer, 7000);
+            if (result === "__TIMEOUT__") {
+              console.warn("Skipping slow MCP server (connect timeout)");
+              continue;
+            }
           }
         }
       }
@@ -92,9 +102,22 @@ export class AgentsHelper {
   ): Promise<string> {
     try {
       if (agent.mcpServers && agent.mcpServers.length > 0) {
+        const connectWithTimeout = async (server: MCPServerStreamableHttp | MCPServerStdio, ms: number) => {
+          return await Promise.race([
+            server.connect(),
+            new Promise((resolve) => setTimeout(resolve, ms, "__TIMEOUT__")),
+          ]);
+        };
         for (let mcpServer of agent.mcpServers) {
-          if (mcpServer instanceof MCPServerStreamableHttp) {
-            await mcpServer.connect();
+          if (
+            mcpServer instanceof MCPServerStreamableHttp ||
+            mcpServer instanceof MCPServerStdio
+          ) {
+            const result = await connectWithTimeout(mcpServer, 7000);
+            if (result === "__TIMEOUT__") {
+              console.warn("Skipping slow MCP server (connect timeout)");
+              continue;
+            }
           }
         }
       }
