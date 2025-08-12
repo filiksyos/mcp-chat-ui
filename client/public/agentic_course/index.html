@@ -94,18 +94,22 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script>
       // Mermaid configuration with colors for dual coding
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: 'base',
-        themeVariables: {
-          primaryColor: '#0ea5e9',
-          primaryTextColor: '#0b1220',
-          primaryBorderColor: '#0284c7',
-          lineColor: '#94a3b8',
-          secondaryColor: '#22c55e',
-          tertiaryColor: '#f59e0b',
-          noteBkgColor: '#eef2ff',
-          noteTextColor: '#0f172a'
+      window.addEventListener('DOMContentLoaded', () => {
+        if (window.mermaid) {
+          window.mermaid.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            themeVariables: {
+              primaryColor: '#0ea5e9',
+              primaryTextColor: '#0b1220',
+              primaryBorderColor: '#0284c7',
+              lineColor: '#94a3b8',
+              secondaryColor: '#22c55e',
+              tertiaryColor: '#f59e0b',
+              noteBkgColor: '#eef2ff',
+              noteTextColor: '#0f172a'
+            }
+          });
         }
       });
     </script>

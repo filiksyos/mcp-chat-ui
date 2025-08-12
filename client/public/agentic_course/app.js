@@ -6,6 +6,49 @@ const state = {
   activeModuleId: 'overview',
 };
 
+const ensureMermaid = async () => {
+  const m = window.mermaid;
+  if (!m) return null;
+  if (!window.__MMD_INIT__) {
+    try {
+      m.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          primaryColor: '#0ea5e9',
+          primaryTextColor: '#0b1220',
+          primaryBorderColor: '#0284c7',
+          lineColor: '#94a3b8',
+          secondaryColor: '#22c55e',
+          tertiaryColor: '#f59e0b',
+          noteBkgColor: '#eef2ff',
+          noteTextColor: '#0f172a'
+        }
+      });
+      window.__MMD_INIT__ = true;
+    } catch (e) {
+      console.warn('Mermaid initialize failed', e);
+    }
+  }
+  return m;
+};
+
+async function renderMermaidIn(container) {
+  const m = await ensureMermaid();
+  if (!m) { console.warn('Mermaid not available'); return; }
+  const nodes = Array.from(container.querySelectorAll('.mermaid'));
+  await Promise.all(nodes.map(async (node) => {
+    const def = node.textContent.trim();
+    const id = 'mmd-' + Math.random().toString(36).slice(2);
+    try {
+      const { svg } = await m.render(id, def);
+      node.innerHTML = svg;
+    } catch (e) {
+      console.warn('Mermaid render failed for diagram:', def, e);
+    }
+  }));
+}
+
 const MODULES = [
   {
     id: 'overview',
@@ -14,7 +57,7 @@ const MODULES = [
       <section class="card">
         <h2>System Overview</h2>
         <p>This app wires <strong>Client</strong> ⇄ <strong>Server</strong> over WebSockets, then streams events from an <strong>Agent</strong> that can call <strong>MCP tools</strong>. Dual-coded diagram below:</p>
-        <div class="mermaid" data-processed="false">
+        <div class="mermaid">
           flowchart LR
             subgraph CLIENT[Client]
               UI[Chat UI]
@@ -53,7 +96,7 @@ const MODULES = [
     render: () => `
       <section class="card">
         <h2>Client Flow</h2>
-        <div class="mermaid" data-processed="false">
+        <div class="mermaid">
           sequenceDiagram
             participant UI as Chat UI
             participant WSC as WebSocket Client
@@ -77,7 +120,7 @@ const MODULES = [
     render: () => `
       <section class="card">
         <h2>Server & Transport</h2>
-        <div class="mermaid" data-processed="false">
+        <div class="mermaid">
           flowchart TB
             A[index.ts] --> B[setupWsServer]\nws_server.ts
             A --> C[setupMcpServer]\nmcp.ts
@@ -115,7 +158,7 @@ const MODULES = [
     render: () => `
       <section class="card">
         <h2>MCP Tools</h2>
-        <div class="mermaid" data-processed="false">
+        <div class="mermaid">
           flowchart LR
             Server-->|registerTool| Math[custom_math_calculations]
             Server-->|registerTool| Chart[data_chart_generator]
@@ -171,10 +214,7 @@ async function renderContent() {
   const mod = MODULES.find(m => m.id === state.activeModuleId) || MODULES[0];
   container.innerHTML = mod.render();
   await new Promise(r => setTimeout(r));
-  const nodes = container.querySelectorAll('.mermaid');
-  nodes.forEach(n => {
-    try { mermaid.run({ nodes: [n] }); } catch {}
-  });
+  await renderMermaidIn(container);
 }
 
 function addXP(points) {
@@ -293,7 +333,6 @@ function renderMCQ() {
     card.appendChild(title);
 
     qq.a.forEach((opt, idx) => {
-      const id = `q${i}-a${idx}`;
       const label = document.createElement('label');
       label.style.display = 'block';
       const input = document.createElement('input');
