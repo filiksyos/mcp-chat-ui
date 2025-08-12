@@ -1,0 +1,227 @@
+:root {
+  --bg: #0b1220;
+  --panel: #0f172a;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --primary: #0ea5e9;
+  --primary-700: #0369a1;
+  --accent: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --card: #111827;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1000px 600px at 80% -200px, rgba(14,165,233,0.15), transparent 60%),
+              radial-gradient(800px 500px at -200px 20%, rgba(34,197,94,0.12), transparent 60%),
+              var(--bg);
+  color: var(--text);
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: rgba(17,24,39,0.7);
+  border-bottom: 1px solid rgba(148,163,184,0.2);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 28px;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat .label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.stat .value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.progress {
+  width: 200px;
+  height: 10px;
+  background: rgba(148,163,184,0.2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 300ms ease;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 16px;
+  padding: 20px;
+}
+
+.sidebar {
+  background: var(--panel);
+  border: 1px solid rgba(148,163,184,0.2);
+  border-radius: 12px;
+  padding: 12px;
+  height: fit-content;
+}
+
+.modules {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.modules button {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid rgba(148,163,184,0.2);
+  color: var(--text);
+  padding: 10px 12px;
+  text-align: left;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.modules button.active {
+  outline: 2px solid var(--primary);
+}
+
+.mnemonics ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid rgba(148,163,184,0.2);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.app-footer {
+  padding: 20px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Quiz */
+.quiz-board {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 16px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.column {
+  background: var(--panel);
+  border: 1px dashed rgba(148,163,184,0.35);
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.drop {
+  min-height: 120px;
+  background: rgba(2,132,199,0.06);
+  border-radius: 8px;
+  padding: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bank {
+  background: var(--card);
+  border: 1px solid rgba(148,163,184,0.2);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-content: flex-start;
+  min-height: 120px;
+}
+
+.token {
+  padding: 6px 10px;
+  background: #0b3b59;
+  border: 1px solid #155e75;
+  color: #c7e2f5;
+  border-radius: 999px;
+  cursor: grab;
+  user-select: none;
+}
+
+.token.dragging {
+  opacity: 0.6;
+}
+
+.feedback {
+  min-height: 24px;
+}
+
+.correct { color: var(--accent); }
+.incorrect { color: var(--danger); }
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .columns { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+  .quiz-board { grid-template-columns: 1fr; }
+}

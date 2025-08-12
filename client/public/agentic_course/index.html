@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agentic Course: MCP Chat UI</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="../favicon.ico" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <span class="logo">🤖</span>
+        <div>
+          <h1>Agentic Crash Course</h1>
+          <p class="subtitle">Dual-coded, chunked, and gamified guide to this project</p>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="label">Level</div>
+          <div id="levelValue" class="value">1</div>
+        </div>
+        <div class="stat">
+          <div class="label">XP</div>
+          <div id="xpValue" class="value">0</div>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <nav id="moduleList" class="modules"></nav>
+        <section class="mnemonics">
+          <h3>Memory Hacks</h3>
+          <ul>
+            <li><strong>CAST</strong>: Client ➜ Agents ➜ Server ➜ Tools</li>
+            <li><strong>WARM</strong>: WebSocket ➜ Agent ➜ Response ➜ MCP</li>
+            <li><strong>DRIP</strong>: Drag-drop ➜ Recall ➜ Interleave ➜ Practice</li>
+          </ul>
+        </section>
+      </aside>
+
+      <section class="content">
+        <div id="contentContainer"></div>
+
+        <section class="quiz" id="quizSection">
+          <h2>Drag & Drop Quiz</h2>
+          <p>Drag each item to its correct category. Earn XP for accuracy.</p>
+          <div class="quiz-board">
+            <div class="columns">
+              <div class="column" data-col="Client">
+                <h3>Client</h3>
+                <div class="drop" id="col-Client"></div>
+              </div>
+              <div class="column" data-col="Server">
+                <h3>Server</h3>
+                <div class="drop" id="col-Server"></div>
+              </div>
+              <div class="column" data-col="Agents">
+                <h3>Agents</h3>
+                <div class="drop" id="col-Agents"></div>
+              </div>
+              <div class="column" data-col="Tools">
+                <h3>Tools</h3>
+                <div class="drop" id="col-Tools"></div>
+              </div>
+              <div class="column" data-col="Transport">
+                <h3>Transport</h3>
+                <div class="drop" id="col-Transport"></div>
+              </div>
+            </div>
+            <div class="bank" id="bank"></div>
+          </div>
+          <button id="checkQuiz" class="primary">Check Answers</button>
+          <div id="quizFeedback" class="feedback"></div>
+        </section>
+
+        <section class="mcq" id="mcqSection">
+          <h2>Quick Checks</h2>
+          <div id="mcqContainer"></div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>Built for this repo’s architecture. Open <code>/agentic_course/index.html</code> when running the app, or just open this file directly.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+      // Mermaid configuration with colors for dual coding
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          primaryColor: '#0ea5e9',
+          primaryTextColor: '#0b1220',
+          primaryBorderColor: '#0284c7',
+          lineColor: '#94a3b8',
+          secondaryColor: '#22c55e',
+          tertiaryColor: '#f59e0b',
+          noteBkgColor: '#eef2ff',
+          noteTextColor: '#0f172a'
+        }
+      });
+    </script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
